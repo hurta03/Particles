@@ -10,7 +10,7 @@ const float SCALE = 0.999;
 using namespace Matrices;
 using namespace sf;
 class Particle : public Drawable
-{ //
+{
 public:
 	Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition);
 	virtual void draw(RenderTarget& target, RenderStates states) const override;
