@@ -38,36 +38,27 @@ namespace Matrices
 			return result;
 		}
 	}
-	//fixed setprecision 6
+
 	Matrix operator*(const Matrix& a, const Matrix& b)
 	{
-		if (a.getRows() != b.getRows())
+		if (a.getCols() != b.getRows())
 		{
 			throw runtime_error("Error: dimensions must agree");
 		}
-		
-		int aRSize = a.getRows();
-		int aCSize = a.getCols();
-		int bCSize = b.getCols();
-		Matrix result(aRSize, bCSize);
-		double currNum = 0;
-
-		for (int k = 0; k < bCSize; k++)
+		Matrix c(a.getRows(), b.getCols());
+		for (int k = 0; k < b.getCols(); k++)
 		{
-			for (int i = 0; i < aRSize; i++)
+			for (int i = 0; i < a.getRows(); i++)
 			{
-				for (int j = 0; j < aCSize; j++)
+				double sum = 0;
+				for (int j = 0; j < a.getCols(); j++)
 				{
-					//currNum += a(i, j) * b(j, k);
-					//currNum += a(k, j) * b(j, i);
-					//result(k,i) += a(k, j) * b(j, i);
-					currNum += a(i, j) * b(j, k);
+					sum += a(i, j) * b(j, k);
 				}
-				result(i, k) = currNum;
-				currNum = 0;
+				c(i, k) = sum;
 			}
 		}
-		return result;
+		return c;
 	}
 	
 	bool operator==(const Matrix& a, const Matrix& b)
