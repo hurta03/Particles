@@ -6,10 +6,31 @@ void Engine::input()
 
 void Engine::update(float dtAsSeconds)
 {
+    vector<Particle>::iterator it;
+    //Fix / Do not increment iterator
+    int i = 0;
+    for (auto it = m_particles.begin(); it != m_particles.end(); ++it, i++)
+    {
+        if (m_particles.at(i).getTTL() > 0)
+        {
+            m_particles.at(i).update(dtAsSeconds);
+        }
+        else
+        {
+            it = m_particles.erase(it);
+        }
+    }
 }
 
 void Engine::draw()
 {
+    m_Window.clear();
+    for (int i = 0; i < m_particles.size(); i++)
+    {
+        //Note:  This will use polymorphism to call your Particle::draw() function
+        m_Window.draw(m_particles.at(i));
+    }
+    m_Window.display();
 }
 
 Engine::Engine()
@@ -48,9 +69,9 @@ void Engine::run()
                 {
                     for (int i = 0; i < particleCount; i++)
                     {
-                        cout << "Creating Particle At: " << endl;
                         int numPoints = rand() % 50 + 25;
                         Vector2i mousePos = Vector2i(event.mouseButton.x, event.mouseButton.y);
+                        cout << "Creating Particle At: " << endl;
                         cout << mousePos.x << " " << mousePos.y << endl;
                     }
 
@@ -59,8 +80,5 @@ void Engine::run()
 
         }
 
-        //Update
-        m_Window.display();
-        m_Window.clear();
     }
 }
