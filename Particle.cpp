@@ -12,8 +12,8 @@ Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition)
 
     m_centerCoordinate = mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
     
-    m_vx =
-    m_vy =
+    m_vx = rand() % 400 + 100;
+    m_vy = rand() % 400 + 100;
 
     int randR = rand() % (255 + 1);
     int randG = rand() % (255 + 1);
