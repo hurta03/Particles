@@ -16,14 +16,14 @@ Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition)
     m_vy =
 
     int randR = rand() % (255 + 1);
-	int randG = rand() % (255 + 1);
-	int randB = rand() % (255 + 1);
+    int randG = rand() % (255 + 1);
+    int randB = rand() % (255 + 1);
     sf::Color color (randR, randG, randB);
     m_color1 = color;
 
     int randR2 = rand() % (255 + 1);
-	int randG2 = rand() % (255 + 1);
-	int randB2 = rand() % (255 + 1);
+    int randG2 = rand() % (255 + 1);
+    int randB2 = rand() % (255 + 1);
     sf::Color color2 (randR2, randG2, randB2);
 
     m_color2 = color2;
