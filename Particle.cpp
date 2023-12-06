@@ -3,22 +3,60 @@
 //
 Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition)
 {
+    m_ttl = TTL;
+    m_numPoints = numPoints;
+    m_radiansPerSec = ((float)rand() / (RAND_MAX)) * PI;
 
+    setCenter(0,0);
+    setSize(target.getSize().x, (-1.0) * target.getSize().y);
+
+    m_centerCoordinate = mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
+    
+    m_vx =
+    m_vy =
+
+    int randR = rand() % (255 + 1);
+	int randG = rand() % (255 + 1);
+	int randB = rand() % (255 + 1);
+    sf::Color color (randR, randG, randB);
+    m_color1 = color;
+
+    int randR2 = rand() % (255 + 1);
+	int randG2 = rand() % (255 + 1);
+	int randB2 = rand() % (255 + 1);
+    sf::Color color2 (randR2, randG2, randB2);
+
+    m_color2 = color2;
+
+    theta = rand() % (PI/2);
+    dTheta = 2 * PI / (numPoints - 1);
+
+    for (int j = 0; j < numPoints; j++)
+    {
+        int r, dx, dy;
+        r = rand() % 60 + 20;
+        dx = r * cos(theta);
+        dy = r * sin(theta);
+
+        m_A(0,j) = m_centerCoordinate.x + dx;
+        m_A(1,j) = m_centerCoordinate.y + dy;
+
+        theta += dTheta;
+    }
 }
 
 virtual void draw(RenderTarget& target, RenderStates states) const override
 {
     sf::VertexArray lines(sf::TriangleFan, m_numpoints + 1);
-    sf::Vector2f center()
+    sf::Vector2f center(mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane));
 
     lines[0].position = center;
     lines[0].color = m_color;
 
     for (int j = 1; j <= m_numPoints; j++)
     {
-        lines[j].position = 
+        lines[j].position = mapCoordsToPixel(m_A[j-1], m_cartesianPlane);
         lines[j].color = m_Color2;
-        
     }
 
     target.draw(lines);
