@@ -39,7 +39,6 @@ Engine::Engine()
     int yRes = VideoMode::getDesktopMode().height;
     VideoMode vm(xRes, yRes);
     m_Window.create(vm, "Particles", Style::Default);
-
 }
 
 void Engine::run()
@@ -50,7 +49,7 @@ void Engine::run()
     p.unitTests();
     cout << "Unit tests complete.  Starting engine..." << endl;
     Event event;
-    int particleCount = 5;
+    const int particleCount = 5;
     while (m_Window.isOpen())
     {
         EngineClock.restart();
