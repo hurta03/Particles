@@ -1,11 +1,13 @@
 #include "Particle.h"
+#include "Matrices.h"
 //
-Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition)
+
+Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosition) : m_A(2, numPoints)
 {
     m_ttl = TTL;
     m_numPoints = numPoints;
     m_radiansPerSec = ((float)rand() / (RAND_MAX)) * M_PI;
-  
+
     m_cartesianPlane.setCenter(0, 0);
     m_cartesianPlane.setSize(target.getSize().x, (-1.0) * target.getSize().y);
 
@@ -27,7 +29,7 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
 
     m_color2 = color2;
 
-    float theta = rand() % (M_PI / 2);
+    float theta = rand() % static_cast<int>(M_PI / 2); // 0 : pi/2
     float dTheta = 2 * M_PI / (numPoints - 1);
 
     for (int j = 0; j < numPoints; j++)
@@ -54,8 +56,8 @@ void Particle::draw(RenderTarget& target, RenderStates states) const
 
     for (int j = 1; j <= m_numPoints; j++)
     {
-        lines[j].position = target.mapCoordsToPixel(m_A[j - 1], m_cartesianPlane);
-        lines[j].color = m_color2;
+        lines[j].position = target.mapCoordsToPixel(m_A(0, j - 1), m_cartesianPlane);
+        lines[j].color = m_color2; 
     }
 
     target.draw(lines);
@@ -113,7 +115,7 @@ void Particle::scale(double c)
 ///construct a TranslationMatrix T, add it to m_A
 void Particle::translate(double xShift, double yShift)
 {
-    TranslationMatrix T(xShift, yShift);
+    TranslationMatrix T(xShift, yShift, m_A.getCols());
 
     m_A = T + m_A;
 
