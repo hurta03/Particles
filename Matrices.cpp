@@ -95,5 +95,32 @@ namespace Matrices
 		return os;
 	}
 	
+	RotationMatrix::RotationMatrix(double theta) : Matrix(2, 2)
+	{
+		Matrix M(1, 1);
+		M(0, 0) = cos(theta); M(0, 1) = -sin(theta);
+		M(1, 0) = sin(theta); M(1, 1) = cos(theta); 
+	}
+
+	ScalingMatrix::ScalingMatrix(double scale) : Matrix(2, 2)
+	{
+		Matrix S(1, 1);
+		S(0, 0) = scale; S(0, 1) = 0;
+		S(1, 0) = 0; S(1, 1) = scale;
+	}
+
+	TranslationMatrix::TranslationMatrix(double xShift, double yShift, int nCols) : Matrix(2, 2)
+	{
+		//2xn matrix, where n is the total number of stored points
+		Matrix T(2, nCols);
+		for (int i = 0; i < 2; i++)
+		{
+			for (int j = 0; j < nCols; j++)
+			{
+				T(i, j) = (i == 0 ? xShift : yShift);
+			}
+		}
+	}
+
 }
 // << fixed << setprecision(6) << << setw(6)
