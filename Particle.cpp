@@ -6,15 +6,14 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
 {
     m_ttl = TTL;
     m_numPoints = numPoints;
-    m_radiansPerSec = ((float)rand() / (RAND_MAX)) * M_PI;
-
+    m_radiansPerSec = rand() % 2 ? ((float)rand() / (RAND_MAX)) * M_PI : -1 * (((float)rand() / (RAND_MAX)) * M_PI);
     m_cartesianPlane.setCenter(0, 0);
     m_cartesianPlane.setSize(target.getSize().x, (-1.0) * target.getSize().y);
 
     m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
 
-    m_vx = rand() % 400 + 100;
-    m_vy = rand() % 400 + 100;
+    m_vx = rand() % 600 + 100;
+    m_vy = rand() % 300 + 100;
 
     int randR = rand() % (255 + 1);
     int randG = rand() % (255 + 1);
@@ -29,13 +28,13 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
 
     m_color2 = color2;
 
-    float theta = rand() % static_cast<int>(M_PI / 2); // 0 : pi/2 fix for integer division
+    float theta = (((float)rand() / (RAND_MAX)) * M_PI) / 2;
     float dTheta = 2 * M_PI / (numPoints - 1);
 
     for (int j = 0; j < numPoints; j++)
     {
         int r, dx, dy;
-        r = rand() % 60 + 20;
+        r = rand() % 60 + 10;
         dx = r * cos(theta);
         dy = r * sin(theta);
 
@@ -48,7 +47,7 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
 
 void Particle::draw(RenderTarget& target, RenderStates states) const
 {   sf::VertexArray lines(TriangleFan, m_numPoints + 1);
-    sf::Vector2f center(target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane));
+    sf::Vector2f center = static_cast<Vector2f>(target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane));
 
     lines[0].position = center;
     lines[0].color = m_color1;
