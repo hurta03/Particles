@@ -11,10 +11,11 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     m_cartesianPlane.setSize(target.getSize().x, (-1.0) * target.getSize().y);
 
     m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
-
-    m_vx = rand() % 600 + 100;
-    m_vy = rand() % 300 + 100;
-
+    // rand() % 2 ? rand() % 600 + 100 : -1 * (rand() % 600 + 100); // Include negative coords
+    // rand() % 600 + 100 // Only positive coords
+    m_vx = rand() % 2 ? rand() % 600 + 100 : -1 * (rand() % 600 + 100);
+    m_vy = rand() % 2 ? rand() % 600 + 100 : -1 * (rand() % 600 + 100);
+    
     int randR = rand() % (255 + 1);
     int randG = rand() % (255 + 1);
     int randB = rand() % (255 + 1);
