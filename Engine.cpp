@@ -32,9 +32,6 @@ void Engine::input()
 
 void Engine::update(float dtAsSeconds)
 {
-    vector<Particle>::iterator it;
-    //Fix / Do not increment iterator
-    int i = 0;
     //for (auto it = m_particles.begin(); it != m_particles.end(); ++it, i++)
     for (vector<Particle>::iterator it = m_particles.begin(); it != m_particles.end();)
     {
@@ -80,14 +77,10 @@ void Engine::run()
 
     while (m_Window.isOpen())
     {
-        EngineClock.restart();
-        Time time = EngineClock.getElapsedTime();
-        float seconds = time.asSeconds();
-        cout << m_particles.size() << " ";
+        //float seconds = time.asSeconds();
         input();
-        update(time.asSeconds()); // dtseconds
-        draw();
-        
+        update(EngineClock.restart().asSeconds()); // Particles move faster if called in update argument
+        draw();        
 
     }
 }
